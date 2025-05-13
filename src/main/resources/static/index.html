@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <!-- jquery 必须 -->
+    <script src="hiprint/js/jquery-3.6.1.min.js"></script>
+    <!-- 条形码 -->
+    <script src="hiprint/js/JsBarcode.all.min.js"></script>
+    <!-- 二维码、条形码 bwip-js -->
+    <script src="hiprint/js/bwip-js.js"></script>
+    <!-- 数字转大写 -->
+    <script src="hiprint/js/nzh.min.js"></script>
+    <!-- 颜色选择器 -->
+    <script src="hiprint/js/jquery.minicolors.min.js"></script>
+    <!-- 直接打印(print2)需要 -->
+    <script src="hiprint/js/socket.io.min.js"></script>
+    <!-- toPdf需要 -->
+    <script src="hiprint/js/umd.js"></script>
+    <script src="hiprint/js/jspdf.umd.min.js"></script>
+    <script src="hiprint/js/html2canvas.js"></script>
+    <!-- vue-plugin-hiprint  -->
+    <script src="hiprint/js/vue-plugin-hiprint.js"></script>
+    <title>HiprintRenderEngine</title>
+</head>
+<body>
+<!-- 指定脚本在解析页面的同时并行下载，并在页面解析完成后执行。 -->
+<script defer>
+    // 禁止自动重连打印客户端
+    window['vue-plugin-hiprint'].disAutoConnect();
+
+    /**
+     * 通过模板 json 和打印数据 json 渲染生成 html 字符串
+     * @param templateConfig 模板内容（字符串类型的 JSON）
+     * @param printData 打印数据（字符串类型的 JSON）
+     * @returns {string} 返回渲染后的 html 字符串
+     */
+    function generateHtml(templateConfig, printData) {
+        // 初始化
+        hiprint.init({
+            providers: [new window['vue-plugin-hiprint'].defaultElementTypeProvider()]
+        });
+        // 创建模板并填充数据
+        const template = new hiprint.PrintTemplate({template: JSON.parse(templateConfig)});
+        // 返回的是 jQuery 对象
+        const $html = template.getHtml(JSON.parse(printData));
+        // 转成 html 字符串再返回
+        return $html[0].outerHTML;
+    }
+
+    /**
+     * 生成 pdf
+     * @param templateConfig 模板内容
+     * @param printData 打印数据
+     * @param type 生成 pdf 类型： blob（默认） arraybuffer dataurl bloburl dataurlstring pdfobjectnewwindow
+     */
+    function generatePdf(templateConfig, printData, type) {
+        // 初始化
+        hiprint.init({
+            providers: [new window['vue-plugin-hiprint'].defaultElementTypeProvider()]
+        });
+
+        // 创建模板并填充数据
+        const template = new hiprint.PrintTemplate({template: JSON.parse(templateConfig)});
+
+        // 打印数据、pdf文件名称、生成参数选项
+        template.toPdf(printData, 'output', {isDownload: false, type: type}).then((res) => {
+            console.log(res)
+            return res;
+        });
+    }
+
+    /**
+     * 获取 HiPrint 的版本
+     * @returns {*}
+     */
+    function getHiprintVersion() {
+        return hiprint.version;
+    }
+</script>
+</body>
+</html>
