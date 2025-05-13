@@ -2,6 +2,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 
 log/
+gradle/
 
 ### STS ###
 .apt_generated
