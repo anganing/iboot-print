@@ -166,6 +166,7 @@ public class HiprintRenderEngine {
      * @return 完整的入口页面 URL
      */
     private String getHiprintEntry() {
+        serverContextPath = serverContextPath.startsWith("!") ? serverContextPath.substring(1) : serverContextPath;
         return String.format("http://localhost:%s%sindex.html",serverPort, serverContextPath);
     }
 }

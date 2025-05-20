@@ -1,7 +1,7 @@
 server:
   port: 8080
   # 本项目必须以 / 结束或者不填默认 /
-  contextPath: "/api/print/" # solon v1.11.2 后支持（或者 "!/test-service/" 表示原路径不能再请求 v2.6.3 后支持）
+  contextPath: "!/api/print/" # solon v1.11.2 后支持（或者 "!/test-service/" 表示原路径不能再请求 v2.6.3 后支持）
 
 solon.app:
   name: 'iboot-print'

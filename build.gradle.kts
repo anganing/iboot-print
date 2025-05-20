@@ -5,7 +5,7 @@ plugins {
 val htmlunitVersion = "2.70.0"
 val hutoolVersion = "5.8.37"
 val lombokVersion = "1.18.30"
-val solonVersion = "3.3.0"
+val solonVersion = "3.3.1-M3"
 
 repositories {
     mavenLocal()
