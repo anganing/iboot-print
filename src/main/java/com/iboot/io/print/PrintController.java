@@ -3,6 +3,7 @@ package com.iboot.io.print;
 import cn.hutool.core.text.CharSequenceUtil;
 import com.iboot.io.print.core.GenHtmlDto;
 import com.iboot.io.print.core.HiprintRenderEngine;
+import com.iboot.io.print.core.R;
 import org.noear.solon.annotation.*;
 
 import java.util.Objects;
@@ -33,7 +34,7 @@ public class PrintController {
      */
     @Post
     @Mapping("/generateHtml")
-    public String generateHtml(@Body GenHtmlDto genHtmlDto) {
+    public R<String> generateHtml(@Body GenHtmlDto genHtmlDto) {
         if (Objects.isNull(genHtmlDto)) {
             throw new IllegalArgumentException("请求参数不能为空");
         }
@@ -45,7 +46,7 @@ public class PrintController {
         if (CharSequenceUtil.isEmpty(templateContent)) {
             throw new IllegalArgumentException("打印数据不能为空");
         }
-        return hiprintRenderEngine.generateHtml(templateContent, printData);
+        return R.ok(hiprintRenderEngine.generateHtml(templateContent, printData));
     }
 
     /**
@@ -55,7 +56,7 @@ public class PrintController {
      */
     @Get
     @Mapping("/getHiprintVersion")
-    public String getHiprintVersion() {
-        return hiprintRenderEngine.getHiprintVersion();
+    public R<String> getHiprintVersion() {
+        return R.ok(hiprintRenderEngine.getHiprintVersion());
     }
 }
